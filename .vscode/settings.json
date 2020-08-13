@@ -1,0 +1,15 @@
+{
+    // Needs Extensions Reloader in Chrome: 
+    // https://chrome.google.com/webstore/detail/extensions-reloader/fimgfedafeadlieiabdeeaodndnlbhid
+    
+    //"files.autoSave": "onWindowChange",
+
+    "emeraldwalk.runonsave": {
+        "commands": [
+            {
+                "match": "/markdown-diagrams-browser-extension/github/src/.*",
+                "cmd": "google-chrome http://reload.extensions"
+            }
+        ]
+    }
+}

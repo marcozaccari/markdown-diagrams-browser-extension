@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Markdown Diagrams Options</title>
+  <link rel="stylesheet" href="css/font-awesome.min.css">
+  <link rel="stylesheet" href="css/options.min.css">
+</head>
+<body>
+<section class="section">
+  <div class="container">
+    
+    <div id="enablingLocalFileNotification" class="notification is-info is-small is-hidden">
+      <button class="delete"></button>
+      <strong><i class="fa fa-info-circle"></i> Important!</strong>
+      If your are using Chrome or Opera, in order to use this extension on local files (i.e. files on this computer),
+      you must check the option <code>Allow access to file URLs</code> on the <a id="openExtensionsPageLink" href="#">chrome://extensions</a>
+      page
+    </div>
+
+    <form>
+      <fieldset>
+        <legend>Markdown Diagrams Options</legend>
+        <div class="field">
+          <label class="label" for="inputServiceURL">Service URL</label>
+          <div class="control is-expanded has-icons-right has-save-indicator">
+            <input id="inputServiceURL" class="input form-input" type="text" placeholder="https://kroki.io" >
+            <span class="icon is-small is-right">
+              <i class="fa fa-check"></i>
+            </span>
+            <p class="help">
+              By default the extension sends your diagrams to the free public cloud instance <a href="https://kroki.io">https://kroki.io</a> but you can <a href="https://docs.kroki.io/kroki/setup/install/">install Kroki</a> on your own infrastructure.
+              Once you've installed Kroki, make sure to update the server URL to point to your instance.
+            </p>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label" for="selectOutputFormat">Output format</label>
+          <div class="control">
+            <div class="select">
+              <select id="selectOutputFormat" class="form-input">
+                <option value="svg">Vector (SVG)</option>
+                <option value="png">Raster (PNG)</option>
+              </select>
+            </div>
+          </div>
+          <p class="help">
+            Note: <code>Mermaid</code>, <code>BPMN</code>, <code>Bytefield</code>, <code>Nomnoml</code>, <code>Svgbob</code>, <code>WaveDrom</code> will still be rendered in SVG.
+          </p>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Background activity</legend>
+
+        <div class="field">
+          <label class="checkbox">
+            <input id="checkUnknownSitesAsDynamic" type="checkbox" class="form-input">
+            Treat all unknown sites as dynamic content
+          </label>
+          <span class="help">
+            More precise behavior at the expense of a little overhead.
+          </span>
+        </div>
+
+        <div class="field">
+          <label class="label" for="selectPageDebounceMs">Refresh interval after every page content change</label>
+          <div class="control has-icons-left">
+            <div class="select">
+              <select id="selectPageDebounceMs" class="form-input">
+                <option value="250">250 msec</option>
+                <option value="500">500 msec</option>
+                <option value="1000">1 sec</option>
+                <option value="2000">2 sec</option>
+                <option value="3000">3 sec</option>
+                <option value="5000">5 sec</option>
+              </select>
+            </div>
+            <div class="icon is-small is-left">
+              <i class="fa fa-refresh"></i>
+            </div>
+            <span class="help">
+              On dynamic content websites, parses the page changes after a certain amount of time, lowering CPU usage.
+            </span>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label" for="selectFileDebounceMs">Refresh interval for local files</label>
+          <div class="control has-icons-left">
+            <div class="select">
+              <select id="selectFileDebounceMs" class="form-input">
+                <option value="25">25 msec</option>
+                <option value="50">50 msec</option>
+                <option value="100">100 msec</option>
+                <option value="250">250 msec</option>
+                <option value="500">500 msec</option>
+                <option value="1000">1 sec</option>
+              </select>
+            </div>
+            <div class="icon is-small is-left">
+              <i class="fa fa-refresh"></i>
+            </div>
+          </div>
+          <span class="help">
+            Provides time for other extensions to render the markdown.<br>
+            (local files use the <code>file://</code> protocol - or no protocol)
+          </span>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Sites</legend>
+        <div class="field">
+          <label class="label" for="textDisallowSites">Disabled on following sites</label>
+          <div class="control is-expanded has-icons-right has-save-indicator">
+            <textarea id="textDisallowSites" class="form-input textarea" placeholder="domain.ext&#10;something.otherdomain.ext&#10;..."></textarea>
+            <span class="icon is-small is-right">
+              <i class="fa fa-check"></i>
+            </span>
+            <p class="help">
+              <strong>By default the extension is enabled on all sites.</strong> Please specify locations where the extension must to be disabled at all (one domain per row, without protocol).
+            </p>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Diagnostic</legend>
+        <div class="field">
+          <label class="checkbox">
+            <input id="checkDebugMode" type="checkbox" class="form-input">
+            Enable debug mode
+          </label>
+          <span class="help">
+            Log actions on console.
+          </span>
+        </div>
+      </fieldset>
+
+    </form>
+  </div>
+</section>
+
+</body>
+<script src="../js/settings.js"></script>
+<script src="../js/settings_page.js"></script>
+</html>
