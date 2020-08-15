@@ -1,6 +1,6 @@
 # Markdown Diagrams <small>(browser extension)</small>
 
-A browser extension for Chrome, Edge, Opera and Firefox that render diagrams and charts code blocks into preview images.
+A browser extension for Chrome, Edge, Opera and Firefox that render markdown diagrams and charts code blocks into preview images.
 
 ## Supports many languages
 [PlantUML](https://plantuml.com/), [Mermaid](https://mermaid-js.github.io/mermaid), [C4 with PlantUML](https://github.com/RicardoNiepel/C4-PlantUML), [GraphViz](https://www.graphviz.org), [Erd](https://github.com/BurntSushi/erd), [Nomnoml](http://www.nomnoml.com), [BPMN](https://bpmn.io), [BlockDiag](http://blockdiag.com), [SeqDiag](http://blockdiag.com/en/seqdiag), [ActDiag](http://blockdiag.com/en/actdiag), [NwDiag](http://blockdiag.com/en/nwdiag), [PacketDiag](http://blockdiag.com/en/nwdiag/packetdiag-examples.html), [RackDiag](http://blockdiag.com/en/nwdiag/rackdiag-examples.html), [Bytefield](https://github.com/Deep-Symmetry/bytefield-svg), [Ditaa](http://ditaa.sourceforge.net), [Svgbob](https://ivanceras.github.io/svgbob-editor), [UMlet](http://www.itmeyer.at/umlet/uml2), [Vega](https://vega.github.io/vega), [Vega-Lite](https://vega.github.io/vega-lite), [WaveDrom](https://wavedrom.com).
