@@ -16,8 +16,6 @@ function run() {
 	stop();
 
 	currentSiteProfile = detectSiteProfile();
-	if (!currentSiteProfile)  // site not allowed (disallowSitesList)
-		return;
 
 	var isDefaultProfile = (currentSiteProfile.name === "default");
 	log("[Markdown Diagrams] site profile: " + currentSiteProfile.name);
@@ -248,12 +246,19 @@ function onMessage(message, sender, callback) {
 
 // Ask to background.js if current tab is enabled to search and parse.
 webExtension.runtime.sendMessage(
-	{ "action": "queryTabEnabled" }, 
+	{ 
+		"action": "queryTabEnabled",
+		"hostname": window.location.hostname,
+		"href": window.location.href
+	}, 
 	function(response) {
-		if (response.enabled) {
-			globalSettings = response.settings;
-			log("[Markdown Diagrams] tabs enabled, run", globalSettings);
-			run();
+		if (!response.enabled) {
+			log("[Markdown Diagrams] disabled: " + response.reason);
+			return;
 		}
+
+		globalSettings = response.settings;
+		log("[Markdown Diagrams] tabs enabled, run", globalSettings);
+		run();
 	}
 );

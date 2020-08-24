@@ -126,6 +126,7 @@ var siteProfiles = {
 // Detect diagram code language by inspecting element (and parent element too):
 // - "lang=", "language=" attributes
 // - "language-" class
+// - "lang-" class
 function detectDiagramLanguageByElement(el, checkParentToo) {
 	var lang;
 
@@ -139,10 +140,15 @@ function detectDiagramLanguageByElement(el, checkParentToo) {
 	if (lang) 
 		return lang;
 
-		// Check for "language-" class.
+	// Check for "language-", "lang-" classes.
 	el.className.split(' ').some(function(cl) {
 		if (cl.substr(0, "language-".length) == "language-") {
 			lang = cl.substr("language-".length);
+			return true;
+		}
+
+		if (cl.substr(0, "lang-".length) == "lang-") {
+			lang = cl.substr("lang-".length);
 			return true;
 		}
 	});
@@ -175,9 +181,6 @@ function getSiteProfile(profileName) {
 
 // Detect site profile by hostname or custom function.
 function detectSiteProfile() {
-	if (!checkSiteAllowed())
-		return false;
-
 	var idx = "default";
 
 	var hostname = window.location.hostname.split(".").slice(-2).join(".");
@@ -198,23 +201,4 @@ function detectSiteProfile() {
 	}
 
 	return getSiteProfile(idx);
-}
-
-// Check if site is not listed in disallowSitesList.
-// Match: domain.ext, *.domain.ext
-function checkSiteAllowed() {
-	if (!window.location.hostname)
-		return true;
-
-	var hostname = window.location.hostname;
-
-	var items = globalSettings.disallowSitesList.split("\n");
-	for (var i=0, len=items.length; i < len; i++) { 
-		if ((hostname === items[i]) || hostname.endsWith("."+items[i])) {
-			log("[Markdown Diagrams] site not allowed, see extension settings");
-			return false;
-		}
-	}
-
-	return true;
 }

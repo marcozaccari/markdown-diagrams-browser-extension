@@ -31,10 +31,25 @@ function onMessage(message, sender, callback) {
 
 		case "queryTabEnabled":
 			var state = getTabEnabled(tabID);
-			log("tab " + tabID + " requested state: " + state);
+			var reason = "unspecified";
+
+			if (!isSiteAllowed(message.hostname, message.href)) {
+				state = false;
+				setTabEnabled(tabID, false);
+				updateIconState(false);
+
+				reason = "site not allowed, see extension settings";
+				log(reason);
+			}
+
+			var s = "tab " + tabID + " requested state: " + state;
+			if (reason)
+				s += "(" + reason + ")";
+			log(s);
 
 			callback({ 
 				"enabled": state, 
+				"reason": reason,
 				"settings": globalSettings
 			});
 			break;
@@ -113,9 +128,14 @@ function onTabActivated(tabID) {
 }
 
 // Change extension icon according to state.
+var currentIconState;
 function updateIconState(enabled) {
 	var title;
 	var iconFilename;
+
+	if (currentIconState === enabled)
+		return;
+	currentIconState = enabled;
 
 	if (enabled) {
 		title = "Markdown Diagrams";
@@ -128,6 +148,31 @@ function updateIconState(enabled) {
 
 	webExtension.browserAction.setIcon({ path: "images/" + iconFilename });
 	webExtension.browserAction.setTitle({ "title": title });
+}
+
+// Check if site is not listed in disallowSites.
+// Match: [*.]domain.ext, domain.ext[/...]
+function isSiteAllowed(hostname, href) {
+	if (!hostname)  // local file
+		return true;
+
+	// strip protocol, "www." and ending "/"
+	href = href.replace(/(^\w+:|^)\/\//, "").replace(/^www./, "").replace(/\/$/, "");
+
+	var items = defaultDisallowSites.concat(globalSettings.disallowSites);
+	for (var i=0, len=items.length; i < len; i++) { 
+		var item = items[i];
+
+		if (item.indexOf("/") >= 0) {
+			if ((href === item) || href.startsWith(item+"/"))
+				return false;
+		} else {
+			if ((hostname === item) || hostname.endsWith("."+item))
+				return false;
+		}
+	}
+
+	return true;
 }
 
 // Fetch remote resource and return a buffer.

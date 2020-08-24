@@ -10,9 +10,28 @@ const defaultSettings = {
 	unknownSitesAsDynamic: true,
 	pageDebounceMsec: 1000,
 	fileDebounceMsec: 100,
-	disallowSitesList: "",  // TODO
 	debugMode: false,
+
+	disallowSites: []
 }
+
+// Official languages sites that contains examples, etc.
+const defaultDisallowSites = [
+	"mermaid-js.github.io",
+	"plantuml.com",	
+	"github.com/RicardoNiepel/C4-PlantUML",
+	"graphviz.org",
+	"github.com/BurntSushi/erd",
+	"nomnoml.com",
+	"bpmn.io",
+	"blockdiag.com",
+	"github.com/Deep-Symmetry/bytefield-svg",
+	"ditaa.sourceforge.net",
+	"ivanceras.github.io",
+	"itmeyer.at/umlet",
+	"vega.github.io",
+	"wavedrom.com"
+];
 
 var globalSettings;
 

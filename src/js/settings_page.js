@@ -40,7 +40,7 @@ function settingsFromUI() {
 	globalSettings.unknownSitesAsDynamic = ui.checkUnknownSitesAsDynamic.checked;
 	globalSettings.pageDebounceMsec = parseInt(ui.selectPageDebounceMs.value, 10);
 	globalSettings.fileDebounceMsec = parseInt(ui.selectFileDebounceMs.value, 10);
-	globalSettings.disallowSitesList = ui.textDisallowSites.value.replace(/\r\n/g,"\n").replace(/[ \t]/g,"");
+	globalSettings.disallowSites = ui.textDisallowSites.value.split("\n").map(s => s.trim()).filter(s => s);
 	globalSettings.debugMode = ui.checkDebugMode.checked;
 }
 
@@ -51,7 +51,7 @@ function settingsToUI() {
 	ui.checkUnknownSitesAsDynamic.checked = globalSettings.unknownSitesAsDynamic;
 	ui.selectPageDebounceMs.value = globalSettings.pageDebounceMsec.toString();
 	ui.selectFileDebounceMs.value = globalSettings.fileDebounceMsec.toString();
-	ui.textDisallowSites.value = globalSettings.disallowSitesList;
+	ui.textDisallowSites.value = globalSettings.disallowSites.join("\n");
 
 	console.log(globalSettings.debugMode);
 	ui.checkDebugMode.checked = globalSettings.debugMode;
@@ -59,12 +59,12 @@ function settingsToUI() {
 
 // Check if UI <> globalSettings.
 function settingsChanged() {
-	return 	ui.inputServiceURL.value                    !== globalSettings.serviceURL            ||
-			ui.selectOutputFormat.value                 !== globalSettings.outputFormat          ||
-			ui.checkUnknownSitesAsDynamic.checked       !== globalSettings.unknownSitesAsDynamic ||
-			parseInt(ui.selectPageDebounceMs.value, 10) !== globalSettings.pageDebounceMsec      ||
-			parseInt(ui.selectFileDebounceMs.value, 10) !== globalSettings.fileDebounceMsec      ||
-			ui.textDisallowSites.value                  !== globalSettings.disallowSitesList     ||
+	return 	ui.inputServiceURL.value                    !== globalSettings.serviceURL                   ||
+			ui.selectOutputFormat.value                 !== globalSettings.outputFormat                 ||
+			ui.checkUnknownSitesAsDynamic.checked       !== globalSettings.unknownSitesAsDynamic        ||
+			parseInt(ui.selectPageDebounceMs.value, 10) !== globalSettings.pageDebounceMsec             ||
+			parseInt(ui.selectFileDebounceMs.value, 10) !== globalSettings.fileDebounceMsec             ||
+			ui.textDisallowSites.value                  !== globalSettings.disallowSites.join("\n") ||
 			ui.checkDebugMode.checked                   !== globalSettings.debugMode;
 }
 
