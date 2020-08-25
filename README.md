@@ -16,7 +16,7 @@ A browser extension for Chrome, Edge, Opera and Firefox that renders markdown di
 - <img height="16" src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Google_Chrome_icon_%28September_2014%29.svg"> **Google Chrome**: [Markdown Diagrams - Chrome Web Store](https://chrome.google.com/webstore/detail/markdown-diagrams/pmoglnmodacnbbofbgcagndelmgaclel)
 - <img height="16" src="https://upload.wikimedia.org/wikipedia/commons/a/a0/Firefox_logo%2C_2019.svg"> **Firefox**: [Markdown Diagrams - Firefox Add-ons](https://addons.mozilla.org/en-GB/firefox/addon/markdown-diagrams)
 - <img height="16" src="https://upload.wikimedia.org/wikipedia/it/9/98/Microsoft_Edge_logo_%282019%29.svg"> **Edge**: [Markdown Diagrams - Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/markdown-diagrams/hceenoomhhdkjjijnmlclkpenkapfihe)
-- <img height="16" src="https://upload.wikimedia.org/wikipedia/commons/4/49/Opera_2015_icon.svg"> **Opera**: *coming soon*
+- <img height="16" src="https://upload.wikimedia.org/wikipedia/commons/4/49/Opera_2015_icon.svg"> **Opera**: [Markdown Diagrams - Opera Addons](https://addons.opera.com/it/extensions/details/markdown-diagrams)
 
 
 ## How to use
