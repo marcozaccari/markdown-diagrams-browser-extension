@@ -31,7 +31,7 @@ function onMessage(message, sender, callback) {
 
 		case "queryTabEnabled":
 			var state = getTabEnabled(tabID);
-			var reason = "unspecified";
+			var reason = "";
 
 			if (!isSiteAllowed(message.hostname, message.href)) {
 				state = false;
@@ -88,7 +88,9 @@ webExtension.browserAction.onClicked.addListener(function(tab) {
 		};
 	} else {
 		log("send disable command to tab " + tabID);
-		message = { "action": "disable" };
+		message = { 
+			"action": "disable"
+		};
 	}
 
 	webExtension.tabs.sendMessage(tabID, message);

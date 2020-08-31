@@ -70,8 +70,8 @@ function saveSettings(callback) {
 }
 
 function log() {
-//	if (globalSettings && !globalSettings.debugMode)
-//		return;
+	if (globalSettings && !globalSettings.debugMode)
+		return;
 
 	console.log.apply(console, arguments);
 }

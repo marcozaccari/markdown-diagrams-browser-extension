@@ -253,7 +253,10 @@ webExtension.runtime.sendMessage(
 	}, 
 	function(response) {
 		if (!response.enabled) {
-			log("[Markdown Diagrams] disabled: " + response.reason);
+			var s = "[Markdown Diagrams] disabled";
+			if (response.reason)
+				s += ": " + response.reason; 
+			log(s);
 			return;
 		}
 
