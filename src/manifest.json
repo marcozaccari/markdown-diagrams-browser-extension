@@ -1,12 +1,11 @@
 {
   "name": "Markdown Diagrams",
   "description": "Render PlantUML, Mermaid and others graph/diagrams on webpages.",
-  "version": "1.2",
+  "version": "1.21",
   "manifest_version": 2,
   
   "permissions": [
     "storage",
-    "tabs",
     "<all_urls>"
   ],
   
