@@ -69,8 +69,8 @@ function settingsChanged() {
 }
 
 function showEnablingLocalFileNotification() {
-	openExtensionsPageLink.onclick = () => webExtension.tabs.create(
-		{ url: 'chrome://extensions/?id=' + webExtension.runtime.id	}
+	openExtensionsPageLink.onclick = () => chrome.tabs.create(
+		{ url: 'chrome://extensions/?id=' + chrome.runtime.id	}
 	);
 
 	initNotification(enablingLocalFileNotification);
@@ -80,8 +80,8 @@ function showEnablingLocalFileNotification() {
 function initEnablingLocalFileAlert() {
 	// This API is currently only implemented in Firefox and Firefox Mobile.
 	// Reference: https://developer.mozilla.org/en-US/Add-ons/WebExtensions/API/runtime/getBrowserInfo
-	if (typeof webExtension.runtime.getBrowserInfo === 'function') {
-		webExtension.runtime.getBrowserInfo().then((info) => {
+	if (typeof browser !== 'undefined' && typeof browser.runtime.getBrowserInfo === 'function') {
+		browser.runtime.getBrowserInfo().then((info) => {
 			if (info.name.includes('Chrome') || info.name.includes('Opera'))
 				showEnablingLocalFileNotification();
 		})
@@ -127,8 +127,7 @@ function initAutoSave() {
 
 				saveSettings(function(){
 					// Notify changed settings to background script.
-					webExtension.runtime.sendMessage( { "action": "reloadSettings" } );
-					//webExtension.runtime.getBackgroundPage((page) => page.onSettingsChanged());
+					chrome.runtime.sendMessage( { "action": "reloadSettings" } );
 
 					saved(controlElement);
 				});

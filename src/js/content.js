@@ -112,7 +112,7 @@ function renderBlock(code, diagramProps, replaceElem) {
 			replaceElementWithImg(replaceElem, imgUrl);
 		} else {
 			// Fetch by background and embed image data in <img> node
-			webExtension.runtime.sendMessage(
+			chrome.runtime.sendMessage(
 				{ 
 					"action": "fetchImageData", 
 					"url": imgUrl 
@@ -131,7 +131,7 @@ function renderBlock(code, diagramProps, replaceElem) {
 
 	// Request compression to background, 
 	// that contains external-global libs for all the tabs.
-	webExtension.runtime.sendMessage(
+	chrome.runtime.sendMessage(
 		{ 
 			"action": "compressCode", 
 			"code": code 
@@ -203,7 +203,7 @@ function waitForHourglass(selector, callback, counter){
 	setTimeout(waitForHourglass, 100, selector, callback, counter);
 }
 
-webExtension.runtime.onMessage.addListener(onMessage);
+chrome.runtime.onMessage.addListener(onMessage);
 function onMessage(message, sender, callback) {
 	switch (message.action) {
 		case "background-log":
@@ -245,16 +245,16 @@ function onMessage(message, sender, callback) {
 }
 
 // Ask to background.js if current tab is enabled to search and parse.
-webExtension.runtime.sendMessage(
+chrome.runtime.sendMessage(
 	{ 
 		"action": "queryTabEnabled",
 		"hostname": window.location.hostname,
 		"href": window.location.href
 	}, 
 	function(response) {
-		if (!response.enabled) {
+		if (!response || !response.enabled) {
 			var s = "[Markdown Diagrams] disabled";
-			if (response.reason)
+			if (response && response.reason)
 				s += ": " + response.reason; 
 			log(s);
 			return;

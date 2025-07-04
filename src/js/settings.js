@@ -38,8 +38,8 @@ var globalSettings;
 function loadSettings(callback) {
 	globalSettings = Object.assign({}, defaultSettings);
 
-	webExtension.storage.sync.get(['settings'], function(result) {
-		if (!result) {
+	chrome.storage.sync.get(['settings'], function(result) {
+		if (!result || !result.settings) {
 			log("default settings", globalSettings);
 			saveSettings(callback);
 			return;
@@ -60,8 +60,8 @@ function loadSettings(callback) {
 function saveSettings(callback) {
 	globalSettings.serviceURLisHTTPS = (globalSettings.serviceURL.lastIndexOf("https", 0) === 0);
 
-	webExtension.storage.sync.clear();
-	webExtension.storage.sync.set( { "settings": globalSettings }, function() {
+	chrome.storage.sync.clear();
+	chrome.storage.sync.set( { "settings": globalSettings }, function() {
 		log("saved settings");
 
 		if (callback)

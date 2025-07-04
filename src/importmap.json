@@ -1,0 +1,5 @@
+{
+  "imports": {
+    "pako": "/js/pako_deflate.js"
+  }
+}
