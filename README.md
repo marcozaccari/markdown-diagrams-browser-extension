@@ -1,5 +1,12 @@
 # Markdown Diagrams <small>(browser extension)</small>
 
+![Status](https://img.shields.io/badge/status-archived-lightgrey)
+
+> ⚠️ **Archived Repository**  
+> This repository is archived and no longer maintained.  
+> It will not receive further updates and should be considered for reference purposes only.  
+> The code may be outdated or insecure—use it at your own risk.
+
 A browser extension for Chrome, Edge, Opera and Firefox that renders markdown diagrams and charts code blocks into preview images.
 
 ## Supports many languages
