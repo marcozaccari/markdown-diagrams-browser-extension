@@ -1,204 +1,197 @@
-"use strict";
+'use strict';
 
 var siteProfiles = {
+  // Default for any site. Known sites will be parsed with this profile too.
+  default: {
+    // Search for: PRE, PRE > CODE
+    // Replace: PRE, or parent DIV
 
-	// Default for any site. Known sites will be parsed with this profile too.
-	"default": {
-		// Search for: PRE, PRE > CODE
-		// Replace: PRE, or parent DIV
+    searchSelectors: 'pre',
 
-		searchSelectors: "pre",
-		
-		extractMarkdown: function(el) {
-			var code;
-			var lang;
+    extractMarkdown: function (el) {
+      var code;
+      var lang;
 
-			var child = el.querySelector("code");
-			
-			if (child != null) {
-				code = child.textContent;
-				lang = detectDiagramLanguageByElement(child, false);
-			} else
-				code = el.textContent;
+      var child = el.querySelector('code');
 
-			if (!lang)
-				lang = detectDiagramLanguageByElement(el);
-			return {
-				"code": code,
-				"language": lang
-			};
-		},
-		
-		getElementToReplace: function(el) {
-			// Replace parent DIV that wraps the PRE
-			if (el.parentElement.tagName == "DIV" && el.parentElement.children.length == 1)
-				return el.parentElement;
+      if (child != null) {
+        code = child.textContent;
+        lang = detectDiagramLanguageByElement(child, false);
+      } else code = el.textContent;
 
-			return el;
-		}
-	},
+      if (!lang) lang = detectDiagramLanguageByElement(el);
+      return {
+        code: code,
+        language: lang,
+      };
+    },
 
-	// Local or remote files with extension: .md, .markdown, .mdown, .mkd, .rmd, .txt, .rst
-	"markdownfile": {  
-		// Let the time to render the markdown file by other extension.
-		dynamicLoading: true,  
+    getElementToReplace: function (el) {
+      // Replace parent DIV that wraps the PRE
+      if (el.parentElement.tagName == 'DIV' && el.parentElement.children.length == 1)
+        return el.parentElement;
 
-		detectSite: function() {
-			if (!location.protocol || (location.protocol === "file:")) 
-				return true;
+      return el;
+    },
+  },
 
-			var exts = ["md", "MD", "markdown", "mdown", "mkd", "rmd", "rst", "txt"];
-			var ext = location.href.substr(location.href.lastIndexOf('.') + 1);
-			return (exts.indexOf(ext) > -1);
-		}	
-	},
-	
-	"github.com": {
-		// Known language: PRE > SPAN(s)
-		// Unknown language: PRE > CODE
+  // Local or remote files with extension: .md, .markdown, .mdown, .mkd, .rmd, .txt, .rst
+  markdownfile: {
+    // Let the time to render the markdown file by other extension.
+    dynamicLoading: true,
 
-		dynamicLoading: true,
-	},
-	
-	"gitlab.com": {
-		// Unknown language: PRE > CODE > SPAN(s)
-		
-		detectSite: function() {
-			var og = document.querySelectorAll('meta[property="og:site_name"]')[0];
-			return (og && og.content == "GitLab");
-		},
+    detectSite: function () {
+      if (!location.protocol || location.protocol === 'file:') return true;
 
-		dynamicLoading: true,
+      var exts = ['md', 'MD', 'markdown', 'mdown', 'mkd', 'rmd', 'rst', 'txt'];
+      var ext = location.href.substr(location.href.lastIndexOf('.') + 1);
+      return exts.indexOf(ext) > -1;
+    },
+  },
 
-		//hourglassSelector: "i[aria-label='Loading content…']"
-	},
-	
-	"bitbucket.org": {
-		dynamicLoading: true,
+  'github.com': {
+    // Known language: PRE > SPAN(s)
+    // Unknown language: PRE > CODE
 
-		searchSelectors: "div.codehilite > pre",
-		
-		extractMarkdown: function(el) {
-			return {
-				"code": el.textContent,
-				"language": detectDiagramLanguageByElement(el)
-			};
-		},
-		
-		getElementToReplace: function(el) {
-			return el;
-		}
-	},
-	
-	"atlassian.com": {
-		searchSelectors: "div.code > div > pre",
-		
-		extractMarkdown: function(el) {
-			return {
-				"code": el.textContent
-			};
-		},
-	
-		getElementToReplace: function(el) {
-			return el.parentElement.parentElement;
-		}
-	}, 
+    dynamicLoading: true,
+  },
 
-	"atlassian.net": {
-		dynamicLoading: true,
+  'gitlab.com': {
+    // Unknown language: PRE > CODE > SPAN(s)
 
-		searchSelectors: "div.code-block > span > code, div.code > div > pre",  // new layout, old layout
+    detectSite: function () {
+      var og = document.querySelectorAll('meta[property="og:site_name"]')[0];
+      return og && og.content == 'GitLab';
+    },
 
-		extractMarkdown: function(el) {
-			return {
-				"code": el.textContent
-			};
-		},
-		
-		getElementToReplace: function(el) {
-			return el.parentElement.parentElement;
-		}
-	},
-	
+    dynamicLoading: true,
+
+    //hourglassSelector: "i[aria-label='Loading content…']"
+  },
+
+  'bitbucket.org': {
+    dynamicLoading: true,
+
+    searchSelectors: 'div.codehilite > pre',
+
+    extractMarkdown: function (el) {
+      return {
+        code: el.textContent,
+        language: detectDiagramLanguageByElement(el),
+      };
+    },
+
+    getElementToReplace: function (el) {
+      return el;
+    },
+  },
+
+  'atlassian.com': {
+    searchSelectors: 'div.code > div > pre',
+
+    extractMarkdown: function (el) {
+      return {
+        code: el.textContent,
+      };
+    },
+
+    getElementToReplace: function (el) {
+      return el.parentElement.parentElement;
+    },
+  },
+
+  'atlassian.net': {
+    dynamicLoading: true,
+
+    searchSelectors: 'div.code-block > span > code, div.code > div > pre', // new layout, old layout
+
+    extractMarkdown: function (el) {
+      return {
+        code: el.textContent,
+      };
+    },
+
+    getElementToReplace: function (el) {
+      return el.parentElement.parentElement;
+    },
+  },
 };
-
 
 // Detect diagram code language by inspecting element (and parent element too):
 // - "lang=", "language=" attributes
 // - "language-" class
 // - "lang-" class
 function detectDiagramLanguageByElement(el, checkParentToo) {
-	var lang;
+  var lang;
 
-	// Check for "lang=" attribute.
-	lang = el.getAttribute("lang");
-	if (lang) 
-		return lang;
+  // Check for "lang=" attribute.
+  lang = el.getAttribute('lang');
+  if (lang) return lang;
 
-	// Check for "language=" attribute.
-	lang = el.getAttribute("language");
-	if (lang) 
-		return lang;
+  // Check for "language=" attribute.
+  lang = el.getAttribute('language');
+  if (lang) return lang;
+  // Check for "data-language=" attribute.
+  lang = el.getAttribute('data-language');
+  if (lang) return lang;
 
-	// Check for "language-", "lang-" classes.
-	el.className.split(' ').some(function(cl) {
-		if (cl.substr(0, "language-".length) == "language-") {
-			lang = cl.substr("language-".length);
-			return true;
-		}
+  // Check for "language-", "lang-" classes.
+  el.className.split(' ').some(function (cl) {
+    if (cl.substr(0, 'language-'.length) == 'language-') {
+      lang = cl.substr('language-'.length);
+      return true;
+    }
 
-		if (cl.substr(0, "lang-".length) == "lang-") {
-			lang = cl.substr("lang-".length);
-			return true;
-		}
-	});
-	if (lang) 
-		return lang;
+    if (cl.substr(0, 'lang-'.length) == 'lang-') {
+      lang = cl.substr('lang-'.length);
+      return true;
+    }
+  });
+  if (lang) return lang;
 
-	// Check for parent element.
-	if (checkParentToo || (checkParentToo === undefined))
-		lang = detectDiagramLanguageByElement(el.parentElement, false);
+  // Check for parent element.
+  if (checkParentToo || checkParentToo === undefined)
+    lang = detectDiagramLanguageByElement(el.parentElement, false);
 
-	return lang;
+  return lang;
 }
 
 function getSiteProfile(profileName) {
-	var profile = siteProfiles[profileName];
+  var profile = siteProfiles[profileName];
 
-	profile.name = profileName;
+  profile.name = profileName;
 
-	// Parse search selectors and add additional filters
-	if (profile.searchSelectors) {
-		var selectors = [];
-		profile.searchSelectors.split(',').forEach(function (v){ 
-			selectors.push(v.trim() + ":not([data-mduml-processed])"); 
-		});
-		profile.searchSelectorsParsed = selectors.join(", ");
-	}
+  // Parse search selectors and add additional filters
+  if (profile.searchSelectors) {
+    var selectors = [];
+    profile.searchSelectors.split(',').forEach(function (v) {
+      selectors.push(v.trim() + ':not([data-mduml-processed])');
+    });
+    profile.searchSelectorsParsed = selectors.join(', ');
+  }
 
-	return profile;
+  return profile;
 }
 
 // Detect site profile by hostname or custom function.
 function detectSiteProfile() {
-	var idx = "default";
+  var idx = 'default';
 
-	var hostname = window.location.hostname.split(".").slice(-2).join(".");
+  var hostname = window.location.hostname.split('.').slice(-2).join('.');
 
-	if (hostname && siteProfiles[hostname])
-		idx = hostname;
-	else {
-		// Hostname not found in profiles, try by custom matching in reverse order.
-		var keys = Object.keys(siteProfiles).sort().reverse();
-		for (var i=0; i < keys.length; i++) {
-			var id = keys[i];
+  if (hostname && siteProfiles[hostname]) idx = hostname;
+  else {
+    // Hostname not found in profiles, try by custom matching in reverse order.
+    var keys = Object.keys(siteProfiles).sort().reverse();
+    for (var i = 0; i < keys.length; i++) {
+      var id = keys[i];
 
-			if ((siteProfiles[id].detectSite) && siteProfiles[id].detectSite()) {
-				idx = id;
-				break;
-			}
-		}
-	}
+      if (siteProfiles[id].detectSite && siteProfiles[id].detectSite()) {
+        idx = id;
+        break;
+      }
+    }
+  }
 
-	return getSiteProfile(idx);
+  return getSiteProfile(idx);
 }
