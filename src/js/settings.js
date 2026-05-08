@@ -18,7 +18,7 @@ const defaultSettings = {
 // Official languages sites that contains examples, etc.
 const defaultDisallowSites = [
 	"mermaid-js.github.io",
-	"plantuml.com",	
+	"plantuml.com",
 	"github.com/RicardoNiepel/C4-PlantUML",
 	"graphviz.org",
 	"github.com/BurntSushi/erd",
@@ -38,7 +38,7 @@ var globalSettings;
 function loadSettings(callback) {
 	globalSettings = Object.assign({}, defaultSettings);
 
-	webExtension.storage.sync.get(['settings'], function(result) {
+	webExtension.storage.sync.get(['settings'], function (result) {
 		if (!result) {
 			log("default settings", globalSettings);
 			saveSettings(callback);
@@ -49,7 +49,7 @@ function loadSettings(callback) {
 			if (globalSettings.hasOwnProperty(field))
 				globalSettings[field] = result.settings[field];
 		}
-	
+
 		log("loaded settings", globalSettings);
 
 		if (callback)
@@ -61,7 +61,7 @@ function saveSettings(callback) {
 	globalSettings.serviceURLisHTTPS = (globalSettings.serviceURL.lastIndexOf("https", 0) === 0);
 
 	webExtension.storage.sync.clear();
-	webExtension.storage.sync.set( { "settings": globalSettings }, function() {
+	webExtension.storage.sync.set({ "settings": globalSettings }, function () {
 		log("saved settings");
 
 		if (callback)

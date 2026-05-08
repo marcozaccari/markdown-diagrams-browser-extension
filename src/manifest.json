@@ -2,42 +2,36 @@
   "name": "Markdown Diagrams",
   "description": "Render PlantUML, Mermaid and others graph/diagrams on webpages.",
   "version": "1.21",
-  "manifest_version": 2,
-  
+  "manifest_version": 3,
   "permissions": [
     "storage",
+    "tabs"
+  ],
+  "host_permissions": [
     "<all_urls>"
   ],
-  
   "options_ui": {
     "page": "settings/index.html"
   },
-
   "background": {
-    "scripts": [
-      "js/pako_deflate.js",
-      "js/settings.js", 
-      "js/background.js"
-    ],
-    "persistent": false
+    "service_worker": "js/background.js"
   },
-  
   "icons": {
     "48": "images/icon48.png",
     "128": "images/icon128.png"
   },
-
-  "browser_action": {
-    "default_icon" : "images/icon128.png",
+  "action": {
+    "default_icon": {
+      "128": "images/icon128.png"
+    },
     "default_title": "Markdown Diagrams"
   },
-
   "content_scripts": [
     {
       "js": [
-        "js/settings.js", 
-        "js/sites.js", 
-        "js/diagrams.js", 
+        "js/settings.js",
+        "js/sites.js",
+        "js/diagrams.js",
         "js/content.js"
       ],
       "matches": [
